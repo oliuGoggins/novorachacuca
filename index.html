@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quebra-Cabeça Deslizante</title>
     <style>
-        /* Este bloco define o estilo global da página, incluindo fonte, alinhamento de texto e cor de fundo. */
         body {
             font-family: Arial, sans-serif;
             text-align: center;
@@ -14,7 +13,6 @@
             padding: 0;
         }
 
-        /* Aqui estilizamos o cabeçalho da página, dando um fundo escuro e ajustando o tamanho da fonte para destacar as informações. */
         header {
             background-color: #2c3e50;
             color: white;
@@ -22,12 +20,10 @@
             font-size: 20px;
         }
 
-        /* Define o espaçamento e posicionamento do container onde o quebra-cabeça será exibido. */
         .container {
             margin-top: 20px;
         }
 
-        /* Este bloco configura o layout do quebra-cabeça usando um grid de 4x4. */
         .grid {
             display: grid;
             grid-template-columns: repeat(4, 100px);
@@ -37,7 +33,6 @@
             margin: auto;
         }
 
-        /* Define o estilo das peças do quebra-cabeça, incluindo tamanho, cor e comportamento ao passar o mouse. */
         .tile {
             width: 100px;
             height: 100px;
@@ -51,7 +46,6 @@
             cursor: pointer;
         }
 
-        /* Define o estilo para o espaço vazio no quebra-cabeça, que é a peça que pode ser movida. */
         .empty {
             background-color: #ecf0f1;
             cursor: default;
@@ -71,14 +65,10 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const puzzle = document.getElementById("puzzle");
-
-            /* Aqui criamos um array com os números de 1 a 15 e adicionamos um espaço vazio (null) 
-               para representar a peça faltante. */
             let tiles = [...Array(15).keys()].map(x => x + 1).concat(null);
             tiles = shuffle(tiles);
             renderGrid();
 
-            /* Esta função embaralha os números do quebra-cabeça para gerar um desafio aleatório. */
             function shuffle(array) {
                 for (let i = array.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
@@ -87,10 +77,8 @@
                 return array;
             }
 
-            /* Esta função renderiza o grid do quebra-cabeça no HTML, criando as peças 
-               e associando eventos de clique para movimentação. */
             function renderGrid() {
-                puzzle.innerHTML = ""; // Limpa o grid a cada renderização
+                puzzle.innerHTML = "";
                 tiles.forEach((num, index) => {
                     const tile = document.createElement("div");
                     tile.classList.add("tile");
@@ -98,25 +86,22 @@
                         tile.classList.add("empty");
                     } else {
                         tile.textContent = num;
-                        tile.addEventListener("click", () => moveTile(index)); // Adiciona evento de clique
+                        tile.addEventListener("click", () => moveTile(index));
                     }
                     puzzle.appendChild(tile);
                 });
             }
 
-            /* Aqui é verificado se a peça clicada pode se mover para a posição vazia 
-               e, se puder, a troca de posições é feita. */
             function moveTile(index) {
-                const emptyIndex = tiles.indexOf(null); // Posição da peça vazia
+                const emptyIndex = tiles.indexOf(null);
                 const possibleMoves = [
                     index - 1, index + 1, 
                     index - 4, index + 4
-                ]; // Verifica as posições possíveis ao redor da peça
+                ];
                 if (possibleMoves.includes(emptyIndex)) {
-                    // Verificação adicional para garantir que a peça mova apenas para uma posição válida.
-                    if (index % 4 !== 0 || emptyIndex !== index - 1) { // Evita mover para a esquerda no final da linha
-                        [tiles[index], tiles[emptyIndex]] = [tiles[emptyIndex], tiles[index]]; // Troca as peças
-                        renderGrid(); // Atualiza o grid
+                    if (index % 4 !== 0 || emptyIndex !== index - 1) {
+                        [tiles[index], tiles[emptyIndex]] = [tiles[emptyIndex], tiles[index]]; 
+                        renderGrid(); 
                     }
                 }
             }
